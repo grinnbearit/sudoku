@@ -33,14 +33,14 @@
       (->> (for [option (set/difference (set (range 1 10))
                                         (rows r)
                                         (columns c)
-                                        (get-in squares [(quot r 3) (quot c 3)]))
-                 :let [solution (solve (update rows r conj option)
-                                       (update columns c conj option)
-                                       (update-in squares [(quot r 3) (quot c 3)] conj option)
-                                       (rest blanks))]
-                 :when solution]
-             (conj solution [r c option]))
-           first))))
+                                        (get-in squares [(quot r 3) (quot c 3)]))]
+             (when-let [solution (solve (update rows r conj option)
+                                        (update columns c conj option)
+                                        (update-in squares [(quot r 3) (quot c 3)] conj option)
+                                        (rest blanks))]
+               (conj solution [r c option])))
+           (remove nil?)
+           (first)))))
 
 
 (defn fill-blanks
